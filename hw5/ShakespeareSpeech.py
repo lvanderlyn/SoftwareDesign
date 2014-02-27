@@ -41,7 +41,8 @@ def assignLine(play, d):
        
     return d
 
-d = {'KING' : [], 'DUKE' : [], 'BERTRAM' : [], 'LAFEU' : [], 'PAROLLES' : [], 'FRENCH LORD' : [], 'STEWARD' : [], 'LAVACHE' : [], 'PAGE' : [], 'COUNTESS' : [], 'HELENA' : [],' WIDOW' : [], 'DIANA' : [], 'VIOLENTA' : [],  'MARIANA' : []}
-play = re.findall("[\w'\-]+", story_isolator(fullText))
-print assignLine(play,d) 
+d = {'KING.' : [], 'DUKE.' : [], 'BERTRAM.' : [], 'LAFEU.' : [], 'HELENA.' : [], 'PAROLLES.' : [], 'FRENCH LORD.' : [], 'STEWARD.' : [], 'LAVACHE.' : [], 'PAGE.' : [], 'COUNTESS.' : [],' WIDOW.' : [], 'DIANA.' : [], 'VIOLENTA.' : [],  'MARIANA.' : []}
+play = re.findall("[\w'\.\!\?\-]+", story_isolator(fullText))
+assignLine(play,d) 
+print d['HELENA.']
                  
