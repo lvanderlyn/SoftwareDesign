@@ -26,7 +26,7 @@ def assignLine(play, d):
             speech = []
             character = play[index]            
             for place in range(index+1, len(play)):       #adds from start until stop (exlculsive)
-                if play[place] not in d:
+                if play[place] not in d and play[place] != 'Exuent':
                     speech.append(play[place])
                     if place == len(play)-1:            #If no end codon, closes ORF and adds to all_ORFs
                         d[character] += speech
@@ -41,8 +41,8 @@ def assignLine(play, d):
        
     return d
 
-d = {'KING.' : [], 'DUKE.' : [], 'BERTRAM.' : [], 'LAFEU.' : [], 'HELENA.' : [], 'PAROLLES.' : [], 'FRENCH LORD.' : [], 'STEWARD.' : [], 'LAVACHE.' : [], 'PAGE.' : [], 'COUNTESS.' : [],' WIDOW.' : [], 'DIANA.' : [], 'VIOLENTA.' : [],  'MARIANA.' : []}
+scene1 = {'KING.' : [], 'DUKE.' : [], 'BERTRAM.' : [], 'LAFEU.' : [], 'HELENA.' : [], 'PAROLLES.' : [], 'FRENCH LORD.' : [], 'STEWARD.' : [], 'LAVACHE.' : [], 'PAGE.' : [], 'COUNTESS.' : [],' WIDOW.' : [], 'DIANA.' : [], 'VIOLENTA.' : [],  'MARIANA.' : []}
 play = re.findall("[\w'\.\!\?\-]+", story_isolator(fullText))
-assignLine(play,d) 
-print d['HELENA.']
+assignLine(play,scene1) 
+print scene1['HELENA.']
                  
