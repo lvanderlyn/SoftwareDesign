@@ -17,15 +17,19 @@ def story_isolator(play):
     return playtext
 
 def act_scene_isolator(playtext):
-    acts = ['I']
+    totalacts = []
+    acts = ['I', 'II', 'III', 'IV', 'V']
     for act in range(len(acts)):
         start_of_act = playtext.index("ACT " + acts[act] + ". SCENE 1.")
-        newact = playtext[start_of_act:]
-        if act >= len(acts) + 1 :
-            end_of_act = newact.index("ACT " + acts[act+1] + ". SCENE 1.")
+        if acts[act] == 'V':
+            newact = playtext[start_of_act:]
+            totalacts.append(newact)
         else:
+            newact = playtext[start_of_act:]
             end_of_act = newact.index("ACT " + acts[act+1] + ". SCENE 1.")
-        newact = newact[:end_of_act]
-        return newact
+            newact = newact[:end_of_act]
+            totalacts.append(newact)
+    
+    return totalacts
 
-print act_scene_isolator(story_isolator(fullText))
+act_scene_isolator(story_isolator(fullText))
