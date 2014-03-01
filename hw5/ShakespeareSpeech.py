@@ -5,6 +5,7 @@ Created on Wed Feb 26 10:58:46 2014
 @author: koenigin
 """
 import re
+import pattern.en
 
 f = open('Shakespeare.txt')
 fullText = f.read()
@@ -17,22 +18,22 @@ def story_isolator(play):
     return playtext
 
 def assignLine(play, d):
-    """Takes in a play and a dictionary of charactars in the play and assigns
-    the lines to each character in the play"""
+    """Takes in a play as a list of words and a dictionary of charactars in 
+    the play and assigns the lines to each character in the play"""
  
     index = 0
     while index < (len(play) -1):
         if play[index] in d:                    #finds first character
             speech = []
             character = play[index]            
-            for place in range(index+1, len(play)):       #adds from start until stop (exlculsive)
+            for place in range(index+1, len(play)):       #adds from one character's name until next (exlculsive)
                 if play[place] not in d and play[place] != 'Exuent':
                     speech.append(play[place])
-                    if place == len(play)-1:            #If no end codon, closes ORF and adds to all_ORFs
+                    if place == len(play)-1:            #If no next character, closes  and adds to speech
                         d[character] += speech
                         index = place 
                         break
-                else:                               #closes ORF and adds codons to all_ORFs
+                else:                               #closes speech and adds lines to dictionary
                     d[character] += speech
                     index = place
                     break
@@ -42,7 +43,22 @@ def assignLine(play, d):
     return d
 
 scene1 = {'KING.' : [], 'DUKE.' : [], 'BERTRAM.' : [], 'LAFEU.' : [], 'HELENA.' : [], 'PAROLLES.' : [], 'FRENCH LORD.' : [], 'STEWARD.' : [], 'LAVACHE.' : [], 'PAGE.' : [], 'COUNTESS.' : [],' WIDOW.' : [], 'DIANA.' : [], 'VIOLENTA.' : [],  'MARIANA.' : []}
-play = re.findall("[\w'\.\!\?\-]+", story_isolator(fullText))
+play = re.findall("[\w'\.\!\?\-]+", story_isolator(fullText)) 
 assignLine(play,scene1) 
-print scene1['HELENA.']
-                 
+#print scene1['HELENA.']
+#HelenaL = ""
+#for word in scene1['HELENA.']:
+#    HelenaL += word + " "
+##print HelenaL
+#HelenaS = pattern.en.sentiment(HelenaL)
+#print HelenaS
+
+for key in scene1:
+    Lines = ""
+    Sentiment = {}
+    for word in scene1[key]:
+        Lines += word + " "
+        Sentiment[key] = pattern.en.sentiment(Lines)
+    print Sentiment
+        
+                    
