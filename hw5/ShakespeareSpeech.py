@@ -54,11 +54,13 @@ assignLine(play,scene1)
 #print HelenaS
 
 for key in scene1:
-    Lines = ""
-    Sentiment = {}
-    for word in scene1[key]:
-        Lines += word + " "
-        Sentiment[key] = pattern.en.sentiment(Lines)
-    print Sentiment
-        
+    if len(scene1[key]) != 0: 
+        Lines = ""
+        Sentiment = {}
+        for word in scene1[key]:
+            Lines += word + " "
+            Sentiment[key] = pattern.en.sentiment(Lines)
+        print Sentiment
+   
+       
                     
