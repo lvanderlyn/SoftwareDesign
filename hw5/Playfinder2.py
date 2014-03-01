@@ -30,5 +30,3 @@ def act_scene_isolator(playtext):
             totalacts.append(newact)
     
     return totalacts
-
-act_scene_isolator(story_isolator(fullText))
