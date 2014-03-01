@@ -5,7 +5,6 @@ Created on Thu Feb 27 10:39:59 2014
 @author: ddiggins
 """
 
-import re
 f = open('Shakespeare.txt')
 fullText = f.read()
 f.close
