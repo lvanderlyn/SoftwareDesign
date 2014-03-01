@@ -6,16 +6,17 @@ Created on Wed Feb 26 10:58:46 2014
 """
 import re
 import pattern.en
+from Playfinder import story_isolator
 
 f = open('Shakespeare.txt')
 fullText = f.read()
 f.close
 
-def story_isolator(play):
-    end_of_boilerplate = play.index("all in black")
-    end_of_play = play.index("Enter PAGE")
-    playtext = play[end_of_boilerplate:end_of_play]
-    return playtext
+#def story_isolator(play):
+#    end_of_boilerplate = play.index("all in black")
+#    end_of_play = play.index("Enter PAGE")
+#    playtext = play[end_of_boilerplate:end_of_play]
+#    return playtext
 
 def assignLine(play, d):
     """Takes in a play as a list of words and a dictionary of charactars in 
@@ -54,11 +55,13 @@ assignLine(play,scene1)
 #print HelenaS
 
 for key in scene1:
-    Lines = ""
-    Sentiment = {}
-    for word in scene1[key]:
-        Lines += word + " "
-        Sentiment[key] = pattern.en.sentiment(Lines)
-    print Sentiment
-        
+    if len(scene1[key]) != 0: 
+        Lines = ""
+        Sentiment = {}
+        for word in scene1[key]:
+            Lines += word + " "
+            Sentiment[key] = pattern.en.sentiment(Lines)
+        print Sentiment
+   
+       
                     
