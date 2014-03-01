@@ -16,4 +16,3 @@ def story_isolator(play):
     playtext = play[end_of_boilerplate:end_of_play]
     return playtext
 
-print story_isolator(fullText)
