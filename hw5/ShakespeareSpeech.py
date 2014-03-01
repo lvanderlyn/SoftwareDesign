@@ -6,7 +6,7 @@ Created on Wed Feb 26 10:58:46 2014
 """
 import re
 import pattern.en
-from Playfinder import story_isolator
+from Playfinder2 import story_isolator, act_scene_isolator
 
 f = open('Shakespeare.txt')
 fullText = f.read()
@@ -17,6 +17,7 @@ f.close
 #    end_of_play = play.index("Enter PAGE")
 #    playtext = play[end_of_boilerplate:end_of_play]
 #    return playtext
+
 
 def assignLine(play, d):
     """Takes in a play as a list of words and a dictionary of charactars in 
@@ -43,25 +44,22 @@ def assignLine(play, d):
        
     return d
 
-scene1 = {'KING.' : [], 'DUKE.' : [], 'BERTRAM.' : [], 'LAFEU.' : [], 'HELENA.' : [], 'PAROLLES.' : [], 'FRENCH LORD.' : [], 'STEWARD.' : [], 'LAVACHE.' : [], 'PAGE.' : [], 'COUNTESS.' : [],' WIDOW.' : [], 'DIANA.' : [], 'VIOLENTA.' : [],  'MARIANA.' : []}
+Act1 = {'KING.' : [], 'DUKE.' : [], 'BERTRAM.' : [], 'LAFEU.' : [], 'HELENA.' : [], 'PAROLLES.' : [], 'FRENCH LORD.' : [], 'STEWARD.' : [], 'LAVACHE.' : [], 'PAGE.' : [], 'COUNTESS.' : [],' WIDOW.' : [], 'DIANA.' : [], 'VIOLENTA.' : [],  'MARIANA.' : []}
 play = re.findall("[\w'\.\!\?\-]+", story_isolator(fullText)) 
-assignLine(play,scene1) 
-#print scene1['HELENA.']
-#HelenaL = ""
-#for word in scene1['HELENA.']:
-#    HelenaL += word + " "
-##print HelenaL
-#HelenaS = pattern.en.sentiment(HelenaL)
-#print HelenaS
+assignLine(play,Act1) 
 
-for key in scene1:
-    if len(scene1[key]) != 0: 
+#part of a function that will be incorporated into act_scene_isolator
+# and will return the sentiment of each character in a particular act
+for key in Act1:
+    if len(Act1[key]) != 0: 
         Lines = ""
         Sentiment = {}
-        for word in scene1[key]:
+        for word in Act1[key]:
             Lines += word + " "
             Sentiment[key] = pattern.en.sentiment(Lines)
         print Sentiment
+        
+
    
        
                     
