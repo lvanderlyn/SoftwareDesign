@@ -8,62 +8,33 @@ Created on Thu Feb 27 10:39:59 2014
 import re
 
 f = open('Shakespeare.txt')
-fullText = f.read()
+fullText = f.read() #Turns the contents of Shakespeare.txt into a readable text file
 f.close
 
-def story_isolator(play, title):
-    """Passes in the complete works of Shakespeare, and returns only the text of
-    Alls Well that Ends Well
+
+def master_isolator(play, title):
+    """ Does a whole lot of things!
+    Inputs: Shakespeare.txt, and the title of the play Alls Well that Ends Well
     
-    Play input play must be in the format of the plaintex Project Gutenberg document
-    
-    Title input must be string and an actual play that Shakespeare wrote
+    This function searches for the beginning and ending of the play and returns those. Then it takes the play that results,
+    compiles a list of characters from the play's Dramatis Personae (because those are really the only ones that matter),
+    and splits the play up in acts so we can track the sentiment of the characters in each act over time using ShakespeareSpeech.py
     """
+    #Finds the whole text of the play
     titlefinder = play.index(title.upper()) #Traverses works to find play title in text
     play = play[titlefinder:]
     end_of_play = play.index("THE END") #Finds end of play
     playtext = play[:end_of_play] #Isolates the full play text
-    return playtext
-
-story = story_isolator(fullText, "Alls Well That Ends Well")
-
-#def personae_isolator(play):
-#    """Finds and returns the Dramatis Personae of a Shakespearian play
-#    
-#    Input must be a play that has been cut out from the main text through story_isolator
-#    """
-#    start_of_personae= play.index("Dramatis Personae") #Finds beginning of Personae
-#    end_of_personae = play.index("<<") #Project Gutenberg documents end Personae with long copyright notices
-#    personae = play[start_of_personae:end_of_personae] #Isolates the personae
-#    return personae
-#
-#
-#personae = personae_isolator(story)
-#
-#
-#def character_isolator(dramatispersonae):
-#    characters = {} #Creates empty dictionary for character names
-#    play = re.findall("[\w'\.\!\?\-]+", dramatispersonae)#Translates dramatis personae into list of words
-#    for word in play:
-#        if word == word.upper(): #Names appear in capital letters in Personae
-#            if word not in characters: #Adds character if they are not yet in the dictionary
-#                if word != 'THE':
-#                    if word != 'OF':
-#                        if word != 'A': #Getting rid of common extraneous words here
-#                            characters[word] = []
-#    
-#    return characters
-#
-#
-##print character_isolator(personae)
-
-def act_isolator(playtext):
-    """ Isolates Acts and Dramatis Personae
-    """
+    
+    
     chars_and_acts = []    
     
+        
     #Isolates the Dramatis Personae of the Play
-    start_of_personae= playtext.index("Dramatis Personae") #Finds beginning of Personae
+    if "DRAMATIS PERSONAE" in playtext:
+        start_of_personae= playtext.index("DRAMATIS PERSONAE") #Finds beginning of Personae
+    elif "Dramatis Personae" in playtext:
+        start_of_personae= playtext.index("Dramatis Personae")
     end_of_personae = playtext.index("<<") #Project Gutenberg documents end Personae with long copyright notices
     personae = playtext[start_of_personae:end_of_personae] #Isolates
     
@@ -81,18 +52,21 @@ def act_isolator(playtext):
     
     chars_and_acts.append(characters)
     
+    #Isolates acts and separates them as different values of a list
     
-    acts = ['I', 'II', 'III', 'IV', 'V']
+    acts = ['I', 'II', 'III', 'IV', 'V'] #All of the plays compatible with this format have five acts
     for act in range(len(acts)):
         start_of_act = playtext.index("ACT " + acts[act])
-        if acts[act] == acts[-1]:
+        if acts[act] == acts[-1]: #Ends function if act V is reached!
             newact = playtext[start_of_act:]
             chars_and_acts.append(newact)
         else:
-            newact = playtext[start_of_act:]
-            end_of_act = newact.index("<<THIS ELECTRONIC VERSION")
+            newact = playtext[start_of_act:] #Sets the new act start point
+            end_of_act = newact.index("<<THIS ELECTRONIC VERSION") #All acts have copyright notices between them, so this isolates them
             newact = newact[:end_of_act]
             chars_and_acts.append(newact)    
     
-    return chars_and_acts
+    return chars_and_acts #First values of char_and_acts is a list of the character names, and the rest of the values 1-5 correspond to acts I-V
 
+
+#print master_isolator(fullText, "Coriolanus") #Old Unit Test
