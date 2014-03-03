@@ -12,13 +12,6 @@ f = open('Shakespeare.txt')
 fullText = f.read()
 f.close
 
-#def story_isolator(play):
-#    end_of_boilerplate = play.index("all in black")
-#    end_of_play = play.index("Enter PAGE")
-#    playtext = play[end_of_boilerplate:end_of_play]
-#    return playtext
-
-
 def assignLine(play, d):
     """Takes in a play as a list of words and a dictionary of charactars in 
     the play and assigns the lines to each character in the play"""
@@ -44,9 +37,11 @@ def assignLine(play, d):
        
     return d
 
-Act1 = {'KING.' : [], 'DUKE.' : [], 'BERTRAM.' : [], 'LAFEU.' : [], 'HELENA.' : [], 'PAROLLES.' : [], 'FRENCH LORD.' : [], 'STEWARD.' : [], 'LAVACHE.' : [], 'PAGE.' : [], 'COUNTESS.' : [],' WIDOW.' : [], 'DIANA.' : [], 'VIOLENTA.' : [],  'MARIANA.' : []}
-play = re.findall("[\w'\.\!\?\-]+", story_isolator(fullText)) 
-assignLine(play,Act1) 
+#Act1 = {'KING.' : [], 'DUKE.' : [], 'BERTRAM.' : [], 'LAFEU.' : [], 'HELENA.' : [], 'PAROLLES.' : [], 'FRENCH LORD.' : [], 'STEWARD.' : [], 'LAVACHE.' : [], 'PAGE.' : [], 'COUNTESS.' : [],' WIDOW.' : [], 'DIANA.' : [], 'VIOLENTA.' : [],  'MARIANA.' : []}
+
+cast = character_isolator(personae_isolator(story_isolator(fullText, "The Tempest")))
+play = re.findall("[\w'\.\!\?\-]+", story_isolator(fullText, 'The Tempest')) 
+assignLine(play,cast) 
 
 #part of a function that will be incorporated into act_scene_isolator
 # and will return the sentiment of each character in a particular act
