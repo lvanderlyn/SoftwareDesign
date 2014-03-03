@@ -77,7 +77,7 @@ def act_isolator(playtext):
                 if word != 'THE':
                     if word != 'OF':
                         if word != 'A': #Getting rid of common extraneous words here
-                            characters[word] = []
+                            characters[word + "."] = []
     
     chars_and_acts.append(characters)
     
@@ -94,9 +94,5 @@ def act_isolator(playtext):
             newact = newact[:end_of_act]
             chars_and_acts.append(newact)    
     
-    print chars_and_acts[0]
-    print chars_and_acts[2]
     return chars_and_acts
 
-
-print act_isolator(story)

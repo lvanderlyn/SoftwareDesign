@@ -6,7 +6,7 @@ Created on Wed Feb 26 10:58:46 2014
 """
 import re
 import pattern.en
-from Playfinder2 import story_isolator, act_isolator, character_isolator, personae_isolator
+from Playfinder2 import story_isolator, act_isolator 
 import numpy
 import matplotlib.pyplot as plt
 
@@ -39,39 +39,50 @@ def assignLine(play, d):
        
     return d
 
-#Act1 = {'KING.' : [], 'DUKE.' : [], 'BERTRAM.' : [], 'LAFEU.' : [], 'HELENA.' : [], 'PAROLLES.' : [], 'FRENCH LORD.' : [], 'STEWARD.' : [], 'LAVACHE.' : [], 'PAGE.' : [], 'COUNTESS.' : [],' WIDOW.' : [], 'DIANA.' : [], 'VIOLENTA.' : [],  'MARIANA.' : []}
 AllsWell = act_isolator(story_isolator(fullText, 'Alls Well that Ends Well'))
-play = re.findall("[\w'\.\!\?\-]+", AllsWell[0])
-cast = personae_isolator(AllsWell) 
+play = re.findall("[\w'\.\!\?\-]+", AllsWell[1])
+cast = AllsWell[0] 
 assignLine(play,cast) 
 
 #part of a function that will be incorporated into act_scene_isolator
 # and will return the sentiment of each character in a particular act
 
 def assignSentiment(ldict):
+    Sentiment = {}
     for key in ldict:
         if len(ldict[key]) != 0: #does not add characters not in a scene to dictionary
             Lines = ""
-            Sentiment = {}
             for word in ldict[key]: #changes lines into string sentences to be analyzed by pattern
                 Lines += word + " "
-#                Sentiment[key] = pattern.en.sentiment(Lines) #assigns sentiment
-            print Lines
+            Sentiment[key] = pattern.en.sentiment(Lines) #assigns sentiment 
     return Sentiment
     
 
     
 def plotSentiment(sdict):
+    X = []
+    Y = []
+    n = []
     for key in sdict:
-        x = int(sdict[key][1])
-        y = int(sdict[key][2])
-        plt.plot(x, y, '.', 'MarkerSize', 2)
+        x = float(sdict[key][0])
+        y = float(sdict[key][1])
+        n.append(key)
+        X.append(x)
+        Y.append(y)
+    
+    fig, ax = plt.subplots()
+    ax.scatter(X,Y)    
+    for i, txt in enumerate(n):
+        ax.annotate(txt, (X[i], Y[i]))
     plt. xlabel('positivity')
     plt.ylabel('negativity')
-        
-        
+    plt.axis([-1,1,0,1])
+    plt.show()
 
-plotSentiment(assignSentiment(assignLine(play,cast)[0]))
+
+sdict = assignSentiment(assignLine(play,cast))
+print sdict
+plotSentiment(sdict)
     
         
 
