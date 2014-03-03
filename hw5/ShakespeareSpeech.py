@@ -14,10 +14,10 @@ f = open('Shakespeare.txt')
 fullText = f.read()
 f.close
 
+
 def assignLine(play, d):
     """Takes in a play as a list of words and a dictionary of charactars in 
     the play and assigns the lines to each character in the play"""
- 
     index = 0
     while index < (len(play) -1):
         if play[index] in d:                    #finds first character
@@ -35,19 +35,37 @@ def assignLine(play, d):
                     index = place
                     break
         else:
-            index += 1      #increases index to check next one for start codon
-       
+            index += 1      #increases index to check next one for start codon   
     return d
 
-AllsWell = act_isolator(story_isolator(fullText, 'Alls Well that Ends Well'))
-play = re.findall("[\w'\.\!\?\-]+", AllsWell[1])
-cast = AllsWell[0] 
+
+def selectPlay(name, Acts):
+    '''Takes in the name of a play and an integer of the number of Acts 
+    inluded or the string "all" and returns a list containing all the words 
+    in those sections'''
+    play = [] 
+    split = act_isolator(story_isolator(fullText, name))
+    if Acts == 'all' or Acts == 'All' or Acts == 'All':
+        for act in range(5):
+            text = re.findall("[\w'\.\!\?\-]+", split[act+1])
+            play += text
+    else:
+        for act in range(Acts):
+            text = re.findall("[\w'\.\!\?\-]+", split[act+1])
+            play += text
+    return [split [0], play]
+    
+Selection = selectPlay('Alls Well that Ends Well', 5)     
+play = Selection[1]    
+cast = Selection[0] 
 assignLine(play,cast) 
 
 #part of a function that will be incorporated into act_scene_isolator
 # and will return the sentiment of each character in a particular act
 
 def assignSentiment(ldict):
+    '''takes in a dictionary with characters as keys and their lines as values
+    and returns a dictionary with the sentiment as values'''
     Sentiment = {}
     for key in ldict:
         if len(ldict[key]) != 0: #does not add characters not in a scene to dictionary
@@ -60,6 +78,8 @@ def assignSentiment(ldict):
 
     
 def plotSentiment(sdict):
+    '''takes in a dictionary of character names and sentiment and plots
+    objectivity against positiviy'''
     X = []
     Y = []
     n = []
