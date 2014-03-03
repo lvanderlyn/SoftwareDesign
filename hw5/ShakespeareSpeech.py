@@ -142,25 +142,25 @@ def soul():
     '''wrapper function that allows user to input whether they want to view
     characters in a single play, characters from multiple plays, or a single
     character over the course of a play'''
-    choice = raw_input('Please select a function (by typing 1, 2, or 3): 1. Plot sentiment of all characters in a play 2. Plot sentiment of characters over multiple plays 3. Plot character growth over one play')
-    if choice == 1:
-        playSelect = raw_input('choose a play')
-        actSelect = raw_input('choose number of acts to analyze')
+    choice = raw_input('Please select a function (by typing 1, 2, or 3): 1. Plot sentiment of all characters in a play 2. Plot sentiment of characters over multiple plays 3. Plot character growth over one play : ')
+    if int(choice) == 1:
+        playSelect = raw_input('choose a play : ')
+        actSelect = int(raw_input('choose number of acts to analyze : '))
         play = selectPlay(playSelect, actSelect)[1]
         cast = selectPlay(playSelect, actSelect)[0]
         plotSentiment(assignSentiment(assignLine(play, cast)))
-    elif choice == 2: 
-        playSelect = raw_input('choose which plays to analyze')
-        actSelect = raw_input('choose the number of acts to analyze')
+    elif int(choice) == 2: 
+        playSelect = raw_input('choose which plays to analyze : ')
+        actSelect = int(raw_input('choose the number of acts to analyze : '))
         allPlays([playSelect], actSelect)
-    elif choice == 3:
-        playSelect = raw_input('choose a play')
-        characterSelect = raw_input('choose a character')
+    elif int(choice) == 3:
+        playSelect = raw_input('choose a play : ')
+        characterSelect = raw_input('choose a character : ')
         characterGrowth(playSelect, characterSelect)
     else:
         print 'Incorrect selection, plase enter: 1, 2, or 3'
         
-soul
+soul()
     
     
             
