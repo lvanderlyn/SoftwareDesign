@@ -6,7 +6,9 @@ Created on Wed Feb 26 10:58:46 2014
 """
 import re
 import pattern.en
-from Playfinder2 import story_isolator, act_scene_isolator
+from Playfinder2 import story_isolator, act_isolator, character_isolator, personae_isolator
+import numpy
+import matplotlib.pyplot as plt
 
 f = open('Shakespeare.txt')
 fullText = f.read()
@@ -38,21 +40,39 @@ def assignLine(play, d):
     return d
 
 #Act1 = {'KING.' : [], 'DUKE.' : [], 'BERTRAM.' : [], 'LAFEU.' : [], 'HELENA.' : [], 'PAROLLES.' : [], 'FRENCH LORD.' : [], 'STEWARD.' : [], 'LAVACHE.' : [], 'PAGE.' : [], 'COUNTESS.' : [],' WIDOW.' : [], 'DIANA.' : [], 'VIOLENTA.' : [],  'MARIANA.' : []}
-
-cast = character_isolator(personae_isolator(story_isolator(fullText, "The Tempest")))
-play = re.findall("[\w'\.\!\?\-]+", story_isolator(fullText, 'The Tempest')) 
+AllsWell = act_isolator(story_isolator(fullText, 'Alls Well that Ends Well'))
+play = re.findall("[\w'\.\!\?\-]+", AllsWell[0])
+cast = personae_isolator(AllsWell) 
 assignLine(play,cast) 
 
 #part of a function that will be incorporated into act_scene_isolator
 # and will return the sentiment of each character in a particular act
-for key in Act1:
-    if len(Act1[key]) != 0: #does not add characters not in a scene to dictionary
-        Lines = ""
-        Sentiment = {}
-        for word in Act1[key]: #changes lines into string sentences to be analyzed by pattern
-            Lines += word + " "
-            Sentiment[key] = pattern.en.sentiment(Lines) #
-        print Sentiment
+
+def assignSentiment(ldict):
+    for key in ldict:
+        if len(ldict[key]) != 0: #does not add characters not in a scene to dictionary
+            Lines = ""
+            Sentiment = {}
+            for word in ldict[key]: #changes lines into string sentences to be analyzed by pattern
+                Lines += word + " "
+#                Sentiment[key] = pattern.en.sentiment(Lines) #assigns sentiment
+            print Lines
+    return Sentiment
+    
+
+    
+def plotSentiment(sdict):
+    for key in sdict:
+        x = int(sdict[key][1])
+        y = int(sdict[key][2])
+        plt.plot(x, y, '.', 'MarkerSize', 2)
+    plt. xlabel('positivity')
+    plt.ylabel('negativity')
+        
+        
+
+plotSentiment(assignSentiment(assignLine(play,cast)[0]))
+    
         
 
         

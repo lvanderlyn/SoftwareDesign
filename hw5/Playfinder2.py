@@ -50,7 +50,7 @@ def character_isolator(dramatispersonae):
                 if word != 'THE':
                     if word != 'OF':
                         if word != 'A': #Getting rid of common extraneous words here
-                            characters[word] = 0
+                            characters[word] = []
     
     return characters
 
