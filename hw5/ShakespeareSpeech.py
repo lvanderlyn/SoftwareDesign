@@ -77,7 +77,7 @@ def plotSentiment(sdict):
     Y = []
     n = []
     for key in sdict:
-        x = float(sdict[key][0])
+        x = float(sdict[key][0])              #creats list so can be plotted
         y = float(sdict[key][1])
         n.append(key)
         X.append(x)
@@ -85,7 +85,7 @@ def plotSentiment(sdict):
     
     fig, ax = plt.subplots()
     ax.scatter(X,Y)    
-    for i, txt in enumerate(n):
+    for i, txt in enumerate(n):              #adds labels b/c they're classy
         ax.annotate(txt, (X[i], Y[i]))
     plt. xlabel('positivity')
     plt.ylabel('objectivity')
@@ -100,6 +100,8 @@ def characterGrowth(playName, character):
     plots the change in the characters positivity throughout the play'''
     p = []  
     acts = []
+    character = character.upper()
+    character +="."
     for index in range(5):
         play = selectPlay(playName, index)[1]
         cast = selectPlay(playName, index)[0]
@@ -129,7 +131,7 @@ def allPlays(playList, acts):
     over entire play'''
     play = []
     cast = {}
-    for index in range(len(playList)):
+    for index in range(len(playList)): #joins multiple plays into single list/dictionary
         play += (selectPlay(playList[index], acts)[1])
         cast.update(selectPlay(playList[index], acts)[0])
     plotSentiment(assignSentiment(assignLine(play, cast)))
@@ -142,19 +144,23 @@ def soul():
     '''wrapper function that allows user to input whether they want to view
     characters in a single play, characters from multiple plays, or a single
     character over the course of a play'''
-    choice = raw_input('Please select a function (by typing 1, 2, or 3): 1. Plot sentiment of all characters in a play 2. Plot sentiment of characters over multiple plays 3. Plot character growth over one play : ')
+    choice = raw_input('Please select a function (by typing 1, 2, or 3): \r1. Plot sentiment of all characters in a play \r2. Plot sentiment of characters over multiple plays \r3. Plot character growth over one play : ')
     if int(choice) == 1:
-        playSelect = raw_input('choose a play : ')
+        playSelect = raw_input("choose a play : ")
         actSelect = int(raw_input('choose number of acts to analyze : '))
         play = selectPlay(playSelect, actSelect)[1]
         cast = selectPlay(playSelect, actSelect)[0]
         plotSentiment(assignSentiment(assignLine(play, cast)))
     elif int(choice) == 2: 
-        playSelect = raw_input('choose which plays to analyze : ')
+        playSelect = []
+        numPlays = raw_input('choose number of plays to analyze : ')
+        for it in range(int(numPlays)):
+            playChoice = raw_input("choose play" + " " + str(it+1) + " : ")
+            playSelect.append(playChoice)
         actSelect = int(raw_input('choose the number of acts to analyze : '))
-        allPlays([playSelect], actSelect)
+        allPlays(playSelect, actSelect)
     elif int(choice) == 3:
-        playSelect = raw_input('choose a play : ')
+        playSelect = raw_input("choose a play : ")
         characterSelect = raw_input('choose a character : ')
         characterGrowth(playSelect, characterSelect)
     else:
