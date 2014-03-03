@@ -6,7 +6,7 @@ Created on Wed Feb 26 10:58:46 2014
 """
 import re
 import pattern.en
-from Playfinder2 import story_isolator, act_isolator 
+from Playfinder2 import master_isolator
 import numpy
 import matplotlib.pyplot as plt
 
@@ -44,7 +44,7 @@ def selectPlay(name, Acts):
     inluded or the string "all" and returns a list containing all the words 
     in those sections'''
     play = [] 
-    split = act_isolator(story_isolator(fullText, name))
+    split = master_isolator(fullText, name)
     if Acts == 'all' or Acts == 'All' or Acts == 'All':
         for act in range(5):
             text = re.findall("[\w'\.\!\?\-]+", split[act+1])
@@ -55,13 +55,6 @@ def selectPlay(name, Acts):
             play += text
     return [split [0], play]
     
-Selection = selectPlay('Alls Well that Ends Well', 5)     
-play = Selection[1]    
-cast = Selection[0] 
-assignLine(play,cast) 
-
-#part of a function that will be incorporated into act_scene_isolator
-# and will return the sentiment of each character in a particular act
 
 def assignSentiment(ldict):
     '''takes in a dictionary with characters as keys and their lines as values
@@ -95,16 +88,82 @@ def plotSentiment(sdict):
     for i, txt in enumerate(n):
         ax.annotate(txt, (X[i], Y[i]))
     plt. xlabel('positivity')
-    plt.ylabel('negativity')
-    plt.axis([-1,1,0,1])
+    plt.ylabel('objectivity')
+    plt.axis([-0.5,1,0,1])
     plt.show()
-
-
-sdict = assignSentiment(assignLine(play,cast))
-print sdict
-plotSentiment(sdict)
     
+    
+   
+    
+def characterGrowth(playName, character):
+    '''takes in a play and a character in the play (written in caps) and 
+    plots the change in the characters positivity throughout the play'''
+    p = []  
+    acts = []
+    for index in range(5):
+        play = selectPlay(playName, index)[1]
+        cast = selectPlay(playName, index)[0]
+        lines = assignLine(play, cast)[character]
+        if len(lines) > 0:
+            Lines = ''
+            for word in lines: #changes lines into string sentences to be analyzed by pattern
+                Lines += word + " "
+            happy = float(pattern.en.sentiment(Lines)[0]) #assigns sentiment 
+            p.append(happy)
+            acts.append(index+1)
+
+    fig, ax = plt.subplots()
+    ax.scatter(acts, p)
+    plt.title(character + 'Growth')
+    plt.xlabel('Act')
+    plt.ylabel('Positivity')
+    plt.axis([1,5, -1, 1])
+    plt.show()
+    
+#characterGrowth('Twelfth Night', 'VIOLA.')
+
+ 
+    
+def allPlays(playList, acts):
+    '''Takes in list of plays and plots a graph of sentiment of characters
+    over entire play'''
+    play = []
+    cast = {}
+    for index in range(len(playList)):
+        play += (selectPlay(playList[index], acts)[1])
+        cast.update(selectPlay(playList[index], acts)[0])
+    plotSentiment(assignSentiment(assignLine(play, cast)))
+    
+    
+#playList = ['Alls Well that Ends Well', "Midsummer Night's Dream", "The Tempest", "Twelfth Night", "Othello"]
+#allPlays(playList, 1)
+
+def soul():
+    '''wrapper function that allows user to input whether they want to view
+    characters in a single play, characters from multiple plays, or a single
+    character over the course of a play'''
+    choice = raw_input('Please select a function (by typing 1, 2, or 3): 1. Plot sentiment of all characters in a play 2. Plot sentiment of characters over multiple plays 3. Plot character growth over one play')
+    if choice == 1:
+        playSelect = raw_input('choose a play')
+        actSelect = raw_input('choose number of acts to analyze')
+        play = selectPlay(playSelect, actSelect)[1]
+        cast = selectPlay(playSelect, actSelect)[0]
+        plotSentiment(assignSentiment(assignLine(play, cast)))
+    elif choice == 2: 
+        playSelect = raw_input('choose which plays to analyze')
+        actSelect = raw_input('choose the number of acts to analyze')
+        allPlays([playSelect], actSelect)
+    elif choice == 3:
+        playSelect = raw_input('choose a play')
+        characterSelect = raw_input('choose a character')
+        characterGrowth(playSelect, characterSelect)
+    else:
+        print 'Incorrect selection, plase enter: 1, 2, or 3'
         
+soul
+    
+    
+            
 
         
 
