@@ -51,13 +51,15 @@ assignLine(play,Act1)
 #part of a function that will be incorporated into act_scene_isolator
 # and will return the sentiment of each character in a particular act
 for key in Act1:
-    if len(Act1[key]) != 0: 
+    if len(Act1[key]) != 0: #does not add characters not in a scene to dictionary
         Lines = ""
         Sentiment = {}
-        for word in Act1[key]:
+        for word in Act1[key]: #changes lines into string sentences to be analyzed by pattern
             Lines += word + " "
-            Sentiment[key] = pattern.en.sentiment(Lines)
+            Sentiment[key] = pattern.en.sentiment(Lines) #
         print Sentiment
+        
+
         
 
    
