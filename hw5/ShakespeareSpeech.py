@@ -146,7 +146,7 @@ def soul():
     character over the course of a play'''
     choice = raw_input('Please select a function (by typing 1, 2, or 3): \r1. Plot sentiment of all characters in a play \r2. Plot sentiment of characters over multiple plays \r3. Plot character growth over one play : ')
     if int(choice) == 1:
-        playSelect = raw_input("choose a play : ")
+        playSelect = raw_input("choose a play [Twelfth Night, Midsummer Night's Dream, Othello, The tempest, Alls Well that Ends Well] : ")
         actSelect = int(raw_input('choose number of acts to analyze : '))
         play = selectPlay(playSelect, actSelect)[1]
         cast = selectPlay(playSelect, actSelect)[0]
@@ -165,9 +165,11 @@ def soul():
         characterGrowth(playSelect, characterSelect)
     else:
         print 'Incorrect selection, plase enter: 1, 2, or 3'
-        
-soul()
+
+if __name__ == '__main__':        
+    soul()
     
+    1
     
             
 
