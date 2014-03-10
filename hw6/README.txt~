@@ -1,0 +1,14 @@
+JUMPMAN GAME:
+
+GAME DESCRIPTION:
+Jumpman is a very simple game based on an Atari concept of the same name. The game is a platformer where the player controls a 'Jumpman' character and travels about the playing field collecting gems. In our interpretation of the game, rather than playing fields whose orientations increase in difficulty as play progresses, our game involves randomly generated platforms for every level and the difficulty instead increases because the number and speed of enemies as well as the number of gems to be collected increases in every level. Although there are still a couple of bugs associated with character movement, this new take on an old game provides a challenging and diverting time for anyone who enjoys retro console platformers.
+
+GAME RULES/OBJECTIVE:
+1) Navigate the field using arrow keys to control direction and space  bar to jump
+
+2) Collect all jems in a level before running out of lives to progress to the next level
+
+3) Avoid getting hit by bullets 
+
+4) Be careful not to fall too far, jumpman is only human and long drops can cause him to lose a life
+
