@@ -14,6 +14,18 @@ f = open('Shakespeare.txt')
 fullText = f.read()
 f.close
 
+"""
+SS: Awesome work guys! I'm really impressed at the amount of things you guys were able to execute!! 
+
+    Great job with parsing all of that data as well!
+
+    The only suggestion I have would be that for some of the graphs, it's a hodgepodge of points
+    and labels, and it's hard to see what is what, but that's minor. 
+    
+    Great comments guys, the style and readability of your code is quite good. :) Additionally
+    the breakup of your work into nice functions is also good (modularity)
+"""
+
 
 def assignLine(play, d):
     """Takes in a play as a list of words and a dictionary of charactars in 
@@ -169,7 +181,6 @@ def soul():
 if __name__ == '__main__':        
     soul()
     
-    1
     
             
 
